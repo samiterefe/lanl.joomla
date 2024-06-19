@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+    <name>System - RSFiles Custom LANL Plugin</name>
+    <author>BK Design Solutions</author>
+    <creationDate>May 2021</creationDate>
+    <copyright>Copyright (C) 2021 BK Design Solutions</copyright>
+    <license>Private</license>
+    <authorEmail>bh@bkdesignsolutions.com</authorEmail>
+    <authorUrl>https://bkdesignsolutions.com</authorUrl>
+    <version>2.3.2</version>
+    <description>Adds custom features to the RSFiles component for LANL</description>
+    <files>
+        <folder>helpers</folder>
+        <folder>layouts</folder>
+        <folder>models</folder>
+        <folder>overrides</folder>
+        <folder>sql</folder>
+        <folder>tables</folder>
+        <folder>views</folder>
+        <filename plugin="mvcoverride">mvcoverride.php</filename>
+        <filename>install.mysql.sql</filename>
+        <filename>uninstall.mysql.sql</filename>
+    </files>
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">install.mysql.sql</file>
+        </sql>
+    </install>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">uninstall.mysql.sql</file>
+        </sql>
+    </uninstall>
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/updates/mysql</schemapath>
+        </schemas>
+    </update>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="useTemplateOverrides" type="radio" default="0" label="Use Template Overrides"
+                       description="When Yes is selected RSFiles will use any template overrides in the html folder instead of the overrides by this plugin">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="component" method="upgrade">
+	<name>RSFiles Reports</name>
+	<creationDate>May 2024</creationDate>
+	<author>BK Design Solutions</author>
+	<authorEmail>bh@bkdesignsolutions.com</authorEmail>
+	<authorUrl>https://bkdesignsolutions.com</authorUrl>
+	<copyright>Copyright (C) 2024 BK Design Solutions</copyright>
+	<license>Private</license>
+	<version>1.0.3</version>
+	<description>Access reports about the files being handled by the RSFiles extension</description>
+	<namespace path="src">LANL\Component\RSfilesReports</namespace>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">install.mysql.sql</file>
+		</sql>
+	</install>
+	<administration>
+		<menu img="class:default" link="option=com_rsfilesreports">RSFiles Reports</menu>
+		<submenu>
+			<menu link="option=com_rsfilesreports&amp;view=documents">Documents Report</menu>
+			<menu link="option=com_rsfilesreports&amp;view=categories">Categories Report</menu>
+		</submenu>
+		<files folder="admin">
+			<folder>assets</folder>
+			<folder>views</folder>
+			<filename>install.mysql.sql</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+			<filename>rsfilesreports.php</filename>
+		</files>
+	</administration>
+</extension>
