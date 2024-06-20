@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2024 BK Design Solutions
  * @license     Private
  */
+//namespace TCM\Component\RsfilesReports\Administrator;
 
 defined('_JEXEC') or die;
 //use Joomla Document

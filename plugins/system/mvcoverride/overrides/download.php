@@ -168,4 +168,7 @@ function saveDownloaded(fileId) {
     };
     xhr.send(JSON.stringify({ file_id: fileId }));
 }
+    jQuery(document).ready(function(){
+        jQuery('.fa-bookmark').click(function(){ setTimeout(function(){window.parent.location.reload();},2000)});
+    });
 </script>

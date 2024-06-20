@@ -7,7 +7,7 @@
     <license>Private</license>
     <authorEmail>bh@bkdesignsolutions.com</authorEmail>
     <authorUrl>https://bkdesignsolutions.com</authorUrl>
-    <version>2.3.2</version>
+    <version>2.4.4</version>
     <description>Adds custom features to the RSFiles component for LANL</description>
     <files>
         <folder>helpers</folder>

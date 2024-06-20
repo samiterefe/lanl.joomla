@@ -1,4 +1,5 @@
 <?php
+//namespace TCM\Component\RsfilesReports\Administrator\JControllerLegacy;
 class RSfilesReportsController extends JControllerLegacy{
 	public function display($cachable = false, $urlparams = [])
 	{

@@ -7,7 +7,7 @@
     <license>Private</license>
     <authorEmail>bh@bkdesignsolutions.com</authorEmail>
     <authorUrl>https://bkdesignsolutions.com</authorUrl>
-    <version>1.0.2</version>
+    <version>1.0.6</version>
     <description>Custom API Plugin for RSFile Reports Component</description>
     <files>
         <filename plugin="customapi">customapi.php</filename>

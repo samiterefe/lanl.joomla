@@ -1,4 +1,5 @@
 <?php
+//namespace TCM\Component\RsfilesReports;
 class RSfilesReportsViewDocuments extends JViewLegacy
 {
 	public function display($tpl = null)
