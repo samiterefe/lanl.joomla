@@ -131,24 +131,16 @@ if (!empty($this->file->DownloadLimit) && $this->file->Downloads >= $this->file-
 
 <?php if ($this->config->modal == 1) echo JHtml::_('bootstrap.renderModal', 'rsfRsfilesModal', array('title' => '', 'bodyHeight' => 70)); ?>
 <script>
-function saveViewedAndShowModal(url, title, height, handler, fileId) {
-    // Save viewed information via AJAX
-    var xhr = new XMLHttpRequest();
-    var url = document.location.origin + "/api/index.php/v1/rsfilesreports/save/document/viewed?file_id=" + fileId;
-    console.log(url);
-    xhr.open("POST", url , true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            if (response.success) {
-                rsfiles_show_modal(url, title, height, handler);
-            } else {
-                alert("Error: " + response.message);
-            }
+
+async function saveViewedAndShowModal(url, title, height, handler, fileId) {
+    const saveUrl = document.location.origin + "/api/index.php/v1/rsfilesreports/save/document/viewed?file_id="+fileId;
+    await fetch(saveUrl,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            'Accept': 'application/vnd.api+json'
         }
-    };
-    xhr.send();
+    }).then(rsfiles_show_modal(url, title, height, handler));
 }
 
 function saveDownloaded(fileId) {
