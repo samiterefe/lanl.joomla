@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.1" type="plugin" group="webservices" method="upgrade">
-    <name>Webservice RSFiles Reports</name>
+    <name>Web Services - RSFilesReports</name>
     <author>BK Design Solutions</author>
-    <creationDate>May 2021</creationDate>
-    <copyright>Copyright (C) 2021 BK Design Solutions</copyright>
+    <creationDate>June 2024</creationDate>
+    <copyright>Copyright (C) 2024 BK Design Solutions</copyright>
     <license>Private</license>
     <authorEmail>bh@bkdesignsolutions.com</authorEmail>
     <authorUrl>https://bkdesignsolutions.com</authorUrl>
-    <version>1.0.0</version>
+    <version>1.0.7</version>
     <description>API for RSFiles Reports Component</description>
+    <namespace path="src">TCM\Plugin\WebServices\RSFilesReports</namespace>
+
     <files>
-        <filename plugin="rsfilesreports">rsfilesreports.php</filename>
+        <folder plugin="rsfilesreports">services</folder>
+        <folder>src</folder>
     </files>
 </extension>

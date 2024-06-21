@@ -24,9 +24,11 @@ CREATE TABLE IF NOT EXISTS `#__lanl_rsfiles_viewed`
 
 CREATE TABLE IF NOT EXISTS `#__rsfilesreports_ip_to_country`
 (
+    `id`           int(11)     NOT NULL AUTO_INCREMENT,
     `ip_start`     varchar(15) NOT NULL,
     `ip_end`       varchar(15) NOT NULL,
     `country_code` char(2)     NOT NULL,
-    PRIMARY KEY (`ip_start`, `ip_end`)
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+  DEFAULT CHARSET = utf8
+  DEFAULT COLLATE = utf8_unicode_ci;

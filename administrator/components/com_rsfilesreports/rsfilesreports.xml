@@ -7,9 +7,9 @@
 	<authorUrl>https://bkdesignsolutions.com</authorUrl>
 	<copyright>Copyright (C) 2024 BK Design Solutions</copyright>
 	<license>Private</license>
-	<version>1.0.6</version>
+	<version>1.0.7</version>
 	<description>Access reports about the files being handled by the RSFiles extension</description>
-	<namespace path="src">LANL\Component\RSfilesReports</namespace>
+	<namespace path="src">TCM\Component\RSFilesReports</namespace>
 	<install>
 		<sql>
 			<file driver="mysql" charset="utf8">install.mysql.sql</file>

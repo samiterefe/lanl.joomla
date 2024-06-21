@@ -1,0 +1,55 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_rsfilesreports",
+  "version": "1.0.7",
+  "description": "RSFile Reports",
+  "license": "Private",
+  "assets": [
+    {
+      "name": "com_rsfilesreports.assets",
+      "type": "preset",
+      "dependencies": [
+        "com_rsfilesreports.ionicons.esm.js#script",
+        "com_rsfilesreports.script.js#script",
+        "com_rsfilesreports.primeicons.css#style",
+        "com_rsfilesreports.style.css#style"
+      ]
+    },
+    {
+      "name": "com_rsfilesreports.script.js",
+      "type": "script",
+      "uri": "com_rsfilesreports/script.js",
+      "attributes": {
+        "version": "auto",
+        "type": "module",
+        "crossorigin": "true"
+      }
+    },
+    {
+      "name": "com_rsfilesreports.ionicons.esm.js",
+      "type": "script",
+      "uri": "https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js",
+      "attributes": {
+        "type": "module",
+        "crossorigin": "true"
+      }
+    },
+    {
+      "name": "com_rsfilesreports.style.css",
+      "type": "style",
+      "uri": "com_rsfilesreports/style.css",
+      "attributes": {
+        "crossorigin": "true",
+        "version": "auto"
+      }
+    },
+    {
+      "name": "com_rsfilesreports.primeicons.css",
+      "type": "style",
+      "uri": "https://unpkg.com/primeicons@7.0.0/primeicons.css",
+      "attributes": {
+        "crossorigin": "true"
+      }
+    }
+  ]
+}

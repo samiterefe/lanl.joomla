@@ -134,7 +134,7 @@ if (!empty($this->file->DownloadLimit) && $this->file->Downloads >= $this->file-
 function saveViewedAndShowModal(url, title, height, handler, fileId) {
     // Save viewed information via AJAX
     var xhr = new XMLHttpRequest();
-    var url = document.location.origin + "/index.php?customapi=1&task=saveViewed";
+    var url = document.location.origin + "/api/index.php/v1/rsfilesreports/save/document/viewed?file_id=" + fileId;
     console.log(url);
     xhr.open("POST", url , true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -148,13 +148,13 @@ function saveViewedAndShowModal(url, title, height, handler, fileId) {
             }
         }
     };
-    xhr.send(JSON.stringify({ file_id: fileId }));
+    xhr.send();
 }
 
 function saveDownloaded(fileId) {
     // Save downloaded information via AJAX
     var xhr = new XMLHttpRequest();
-    var url = document.location.origin + "/index.php?customapi=1&task=saveViewed";
+    var url = document.location.origin + "/api/index.php/v1/rsfilesreports/save/document/downloaded?file_id=" + fileId;
     console.log(url);
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -166,7 +166,7 @@ function saveDownloaded(fileId) {
             }
         }
     };
-    xhr.send(JSON.stringify({ file_id: fileId }));
+    xhr.send();
 }
     jQuery(document).ready(function(){
         jQuery('.fa-bookmark').click(function(){ setTimeout(function(){window.parent.location.reload();},2000)});

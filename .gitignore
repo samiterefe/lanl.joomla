@@ -14,7 +14,8 @@
 /downloads/
 /briefcase/
 /images/
-/media/
+/media/*
+!/media/com_rsfilesreports/
 /modules/
 /mysql5.7.14/
 /php/
@@ -137,3 +138,4 @@
 /administrator/components/com_users/
 /administrator/components/com_workflow/
 /administrator/components/com_wrapper/
+!/media/com_rsfilesreports/
