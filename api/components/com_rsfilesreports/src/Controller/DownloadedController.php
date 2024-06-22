@@ -71,11 +71,11 @@ class DownloadedController extends ApiController
 			$sortBy = $db->escape($input->getString('sortBy', ''));
 			if ($sortBy == 'mostViewed')
 			{
-				$query->order($db->qn('totalHits') . ' DESC');
+				$query->order($db->qn('total_views') . ' DESC');
 			}
 			elseif ($sortBy == 'mostDownloaded')
 			{
-				$query->order($db->qn('totalDownloads') . ' DESC');
+				$query->order($db->qn('total_downloads') . ' DESC');
 			}
 
 			$db->setQuery($query);

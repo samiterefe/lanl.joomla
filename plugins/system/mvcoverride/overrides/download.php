@@ -149,7 +149,8 @@ function saveDownloaded(fileId) {
     var url = document.location.origin + "/api/index.php/v1/rsfilesreports/save/document/downloaded?file_id=" + fileId;
     console.log(url);
     xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.setRequestHeader("Content-Type", "application/vnd.api+json");
+    xhr.setRequestHeader("Accept", "application/vnd.api+json");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var response = JSON.parse(xhr.responseText);
