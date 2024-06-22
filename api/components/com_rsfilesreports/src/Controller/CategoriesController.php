@@ -6,12 +6,11 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\Response\JsonResponse;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 class CategoriesController extends ApiController
 {
 	protected $contentType = 'categories';
-
 	protected $default_view = 'categories';
 
 	public function getRsCategory(): void
@@ -22,7 +21,7 @@ class CategoriesController extends ApiController
 			$input     = $this->app->input;
 			$startDate = $db->escape($input->getString('startDate', '1970-01-01'));
 			$endDate   = $db->escape($input->getString('endDate', date('Y-m-d') . ' 23:59:59'));
-			$sortBy    = $db->escape($input->getString('sortBy', ''));
+            $sortBy    = $db->escape($input->getString('sortBy', 'mostViewed')); // Default to 'mostViewed'
 
 			// Subquery for total views with date range
 			$subQueryViews = $db->getQuery(true);
@@ -31,7 +30,7 @@ class CategoriesController extends ApiController
 				->select('COUNT(file_id) as total_views')
 				->from($db->qn('#__lanl_rsfiles_viewed'))
 				->where($db->qn('date_viewed') . ' BETWEEN ' . $db->q($startDate) . ' AND ' . $db->q($endDate))
-				->group($db->q('file_id'));
+                ->group($db->qn('file_id'));
 
 			// Subquery for total downloads with date range
 			$subQueryDownloads = $db->getQuery(true);
@@ -40,7 +39,7 @@ class CategoriesController extends ApiController
 				->select('COUNT(file_id) as total_downloads')
 				->from($db->qn('#__lanl_rsfiles_downloaded'))
 				->where($db->qn('date_downloaded') . ' BETWEEN ' . $db->q($startDate) . ' AND ' . $db->q($endDate))
-				->group($db->q('file_id'));
+                ->group($db->qn('file_id'));
 
 			// Main query to fetch files data
 			$query = $db->getQuery(true)
@@ -52,14 +51,16 @@ class CategoriesController extends ApiController
 				->leftJoin('(' . $subQueryDownloads . ') AS dl ON dl.file_id = f.IdFile')
 				->group('f.FilePath');
 
-			// Apply sorting
+            // Apply sorting and filtering
 			if ($sortBy == 'mostViewed')
 			{
+                                $query->having('total_views > 0');
 				$query->order('total_views DESC');
 			}
 			elseif ($sortBy == 'mostDownloaded')
 			{
-				$query->order('totalDownloads DESC');
+                $query->having('total_downloads > 0');
+                $query->order('total_downloads DESC');
 			}
 
 			$db->setQuery($query);

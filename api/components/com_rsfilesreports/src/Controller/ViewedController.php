@@ -37,8 +37,7 @@ class ViewedController extends ApiController
 			$db->setQuery($query);
 			$result = $db->execute();
 
-			//echo new JsonResponse(array('success' => true));
-			//$this->app->close();
+			echo new JsonResponse(array('success' => true));
 		}
 		catch (Exception $e)
 		{
