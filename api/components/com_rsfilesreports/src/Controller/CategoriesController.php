@@ -13,15 +13,15 @@ class CategoriesController extends ApiController
 	protected $contentType = 'categories';
 	protected $default_view = 'categories';
 
-	public function getRsCategory(): void
+	public function getCategoriesInfo(): void
 	{
 		try
 		{
-			$db    = Factory::getContainer()->get('DatabaseDriver');
+			$db        = Factory::getContainer()->get('DatabaseDriver');
 			$input     = $this->app->input;
 			$startDate = $db->escape($input->getString('startDate', '1970-01-01'));
 			$endDate   = $db->escape($input->getString('endDate', date('Y-m-d') . ' 23:59:59'));
-            $sortBy    = $db->escape($input->getString('sortBy', 'mostViewed')); // Default to 'mostViewed'
+			$sortBy    = $db->escape($input->getString('sortBy', 'mostViewed')); // Default to 'mostViewed'
 
 			// Subquery for total views with date range
 			$subQueryViews = $db->getQuery(true);
@@ -30,7 +30,7 @@ class CategoriesController extends ApiController
 				->select('COUNT(file_id) as total_views')
 				->from($db->qn('#__lanl_rsfiles_viewed'))
 				->where($db->qn('date_viewed') . ' BETWEEN ' . $db->q($startDate) . ' AND ' . $db->q($endDate))
-                ->group($db->qn('file_id'));
+				->group($db->qn('file_id'));
 
 			// Subquery for total downloads with date range
 			$subQueryDownloads = $db->getQuery(true);
@@ -39,7 +39,7 @@ class CategoriesController extends ApiController
 				->select('COUNT(file_id) as total_downloads')
 				->from($db->qn('#__lanl_rsfiles_downloaded'))
 				->where($db->qn('date_downloaded') . ' BETWEEN ' . $db->q($startDate) . ' AND ' . $db->q($endDate))
-                ->group($db->qn('file_id'));
+				->group($db->qn('file_id'));
 
 			// Main query to fetch files data
 			$query = $db->getQuery(true)
@@ -51,16 +51,16 @@ class CategoriesController extends ApiController
 				->leftJoin('(' . $subQueryDownloads . ') AS dl ON dl.file_id = f.IdFile')
 				->group('f.FilePath');
 
-            // Apply sorting and filtering
+			// Apply sorting and filtering
 			if ($sortBy == 'mostViewed')
 			{
-                                $query->having('total_views > 0');
+				$query->having('total_views > 0');
 				$query->order('total_views DESC');
 			}
 			elseif ($sortBy == 'mostDownloaded')
 			{
-                $query->having('total_downloads > 0');
-                $query->order('total_downloads DESC');
+				$query->having('total_downloads > 0');
+				$query->order('total_downloads DESC');
 			}
 
 			$db->setQuery($query);
@@ -108,14 +108,14 @@ class CategoriesController extends ApiController
 					// Aggregate totals
 					if (isset($categoryMap[$categoryName]))
 					{
-						$categoryMap[$categoryName]['total_views']      += (int) $file['total_views'];
+						$categoryMap[$categoryName]['total_views']     += (int) $file['total_views'];
 						$categoryMap[$categoryName]['total_downloads'] += (int) $file['total_downloads'];
 					}
 					else
 					{
 						$categoryMap[$categoryName] = [
-							'Category'       => $categoryName,
-							'total_views'      => (int) $file['total_views'],
+							'Category'        => $categoryName,
+							'total_views'     => (int) $file['total_views'],
 							'total_downloads' => (int) $file['total_downloads']
 						];
 					}

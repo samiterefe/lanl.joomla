@@ -1,4 +1,9 @@
 .idea
+node_modules
+package.json
+pnpm-lock.yaml
+.npmrc
+.prettierrc
 /includes/
 /api/*
 !/api/components/

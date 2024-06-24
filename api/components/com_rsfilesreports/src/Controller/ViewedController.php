@@ -18,26 +18,36 @@ class ViewedController extends ApiController
 	{
 		try
 		{
-			$input           = $this->app->input;
-			$fileId          = $input->getInt('file_id');
-			$viewerIpAddress = $input->server->get('REMOTE_ADDR');
-			$viewerCountry   = $this->getCountryFromIp($viewerIpAddress);
+			$input             = $this->app->input;
+			$viewer_ip_address = $input->server->get('REMOTE_ADDR');
+			$viewer_country    = $this->getCountryFromIp($viewer_ip_address);
+			(int) $fileId = $input->json->get('file_id');
+			//@todo use form token for more security
 
-			if (!$viewerCountry)
+			if (!is_numeric($fileId) || $fileId < 1)
 			{
-				$viewerCountry = 'Unknown';
+				throw new Exception('File ID is missing');
+			}
+
+			if (!$viewer_country)
+			{
+				$viewer_country = 'Unknown';
 			}
 
 			$db    = Factory::getContainer()->get('DatabaseDriver');
 			$query = $db->getQuery(true)
 				->insert($db->qn('#__lanl_rsfiles_viewed'))
 				->columns(array($db->qn('file_id'), $db->qn('viewer_ip_address'), $db->qn('viewer_country'), $db->qn('date_viewed')))
-				->values(implode(',', array($db->q($fileId), $db->q($viewerIpAddress), $db->q($viewerCountry), 'NOW()')));
+				->values(implode(',', array($db->q($fileId), $db->q($viewer_ip_address), $db->q($viewer_country), 'NOW()')));
 
 			$db->setQuery($query);
-			$result = $db->execute();
+			if (!$db->execute())
+			{
+				throw new Exception($db->getErrorMsg());
+			}
 
-			echo new JsonResponse(array('success' => true));
+			echo new JsonResponse();
+			$this->app->close();
 		}
 		catch (Exception $e)
 		{
@@ -65,6 +75,7 @@ class ViewedController extends ApiController
 		{
 			echo new JsonResponse(null, $e->getMessage(), true);
 			$this->app->close();
+
 			return null;
 		}
 	}

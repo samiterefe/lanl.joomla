@@ -14,12 +14,12 @@ class DownloadedController extends ApiController
 
 	protected $default_view = 'downloaded';
 
-    public function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
 
-	public function getDocuments(): void
+	public function getDocumentsInfo(): void
 	{
 		try
 		{
@@ -46,7 +46,7 @@ class DownloadedController extends ApiController
 				->select('COUNT(file_id) as total_views')
 				->from($db->qn('#__lanl_rsfiles_viewed'))
 				->where($db->qn('date_viewed') . ' BETWEEN ' . $db->q($startDate) . ' AND ' . $db->q($endDate))
-                ->group($db->qn('file_id'));
+				->group($db->qn('file_id'));
 
 			// Subquery for total downloads with date range
 			$subQueryDownloads = $db->getQuery(true);
@@ -55,7 +55,7 @@ class DownloadedController extends ApiController
 				->select('COUNT(file_id) as total_downloads')
 				->from($db->qn('#__lanl_rsfiles_downloaded'))
 				->where($db->qn('date_downloaded') . ' BETWEEN ' . $db->q($startDate) . ' AND ' . $db->q($endDate))
-                ->group($db->qn('file_id'));
+				->group($db->qn('file_id'));
 
 			// Main query to fetch files data
 			$query = $db->getQuery(true);
@@ -67,13 +67,16 @@ class DownloadedController extends ApiController
 				->leftJoin('(' . $subQueryViews . ') AS h ON h.file_id = f.IdFile')
 				->leftJoin('(' . $subQueryDownloads . ') AS dl ON dl.file_id = f.IdFile');
 
-            // Apply sorting and filtering
+			// Apply sorting and filtering
 			$sortBy = $db->escape($input->getString('sortBy', ''));
-            if ($sortBy == 'mostViewed') {
-                $query->where($db->qn('total_views') . ' > 0');
+			if ($sortBy == 'mostViewed')
+			{
+				$query->where($db->qn('total_views') . ' > 0');
 				$query->order($db->qn('total_views') . ' DESC');
-            } elseif ($sortBy == 'mostDownloaded') {
-                $query->where($db->qn('total_downloads') . ' > 0');
+			}
+			elseif ($sortBy == 'mostDownloaded')
+			{
+				$query->where($db->qn('total_downloads') . ' > 0');
 				$query->order($db->qn('total_downloads') . ' DESC');
 			}
 
@@ -135,26 +138,35 @@ class DownloadedController extends ApiController
 	{
 		try
 		{
-			$input               = $this->app->input;
-			$fileId              = $input->getInt('file_id');
-			$downloaderIpAddress = $input->server->get('REMOTE_ADDR');
-			$downloaderCountry   = $this->getCountryFromIp($downloaderIpAddress);
+			$input                 = $this->app->input;
+			$downloader_ip_address = $input->server->get('REMOTE_ADDR');
+			$downloader_country    = $this->getCountryFromIp($downloader_ip_address);
+			(int) $fileId = $input->json->get('file_id');
 
-			if (!$downloaderCountry)
+			if (!is_numeric($fileId) || $fileId < 1)
 			{
-				$downloaderCountry = 'Unknown';
+				throw new Exception('File ID is missing');
+			}
+
+			if (!$downloader_country)
+			{
+				$downloader_country = 'Unknown';
 			}
 
 			$db    = Factory::getContainer()->get('DatabaseDriver');
 			$query = $db->getQuery(true)
 				->insert($db->quoteName('#__lanl_rsfiles_downloaded'))
-                ->columns([$db->quoteName('file_id'), $db->quoteName('downloader_ip_address'), $db->quoteName('downloader_country'), $db->quoteName('date_downloaded')])
-                ->values(implode(',', [$db->quote($fileId), $db->quote($downloaderIpAddress), $db->quote($downloaderCountry), 'NOW()']));
+				->columns([$db->quoteName('file_id'), $db->quoteName('downloader_ip_address'), $db->quoteName('downloader_country'), $db->quoteName('date_downloaded')])
+				->values(implode(',', [$db->quote($fileId), $db->quote($downloader_ip_address), $db->quote($downloader_country), 'NOW()']));
 
 			$db->setQuery($query);
-			$db->execute();
 
-            echo new JsonResponse(['success' => true]);
+			if (!$db->execute())
+			{
+				throw new Exception($db->getErrorMsg());
+			}
+
+			echo new JsonResponse();
 			$this->app->close();
 		}
 		catch (Exception $e)
@@ -183,6 +195,7 @@ class DownloadedController extends ApiController
 		{
 			echo new JsonResponse(null, $e->getMessage(), true);
 			$this->app->close();
+
 			return null;
 		}
 	}

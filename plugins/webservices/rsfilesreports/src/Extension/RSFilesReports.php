@@ -1,4 +1,5 @@
 <?php
+
 namespace TCM\Plugin\WebServices\RSFilesReports\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -22,12 +23,12 @@ class RSFilesReports extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router): void
 	{
-		$defaults    = ['public' => true,'component' => 'com_rsfilesreports'];
-		$routes = [
-			new Route(['GET'],'v1/rsfilesreports/get/documents/downloaded', 'downloaded.getDocuments',[], $defaults),
-			new Route(['POST'],'v1/rsfilesreports/save/document/downloaded', 'downloaded.saveDownloaded',[], $defaults),
-			new Route(['POST'],'v1/rsfilesreports/save/document/viewed', 'viewed.saveViewed',[], $defaults),
-			new Route(['GET'],'v1/rsfilesreports/get/categories', 'categories.getRsCategory',[], $defaults),
+		$defaults = ['public' => true, 'component' => 'com_rsfilesreports'];
+		$routes   = [
+			new Route(['GET'], 'v1/rsfilesreports/get/documents/info', 'downloaded.getDocumentsInfo', [], $defaults),
+			new Route(['POST'], 'v1/rsfilesreports/save/document/downloaded', 'downloaded.saveDownloaded', [], $defaults),
+			new Route(['POST'], 'v1/rsfilesreports/save/document/viewed', 'viewed.saveViewed', [], $defaults),
+			new Route(['GET'], 'v1/rsfilesreports/get/categories/info', 'categories.getCategoriesInfo', [], $defaults),
 		];
 
 		$router->addRoutes($routes);

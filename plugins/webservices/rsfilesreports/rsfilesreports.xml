@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="webservices" method="upgrade">
+<extension version="3.1"
+           type="plugin"
+           group="webservices"
+           method="upgrade">
     <name>Web Services - RSFilesReports</name>
     <author>BK Design Solutions</author>
     <creationDate>June 2024</creationDate>
@@ -7,10 +10,9 @@
     <license>Private</license>
     <authorEmail>bh@bkdesignsolutions.com</authorEmail>
     <authorUrl>https://bkdesignsolutions.com</authorUrl>
-    <version>1.0.7</version>
-    <description>API for RSFiles Reports Component</description>
+    <version>1.0.8</version>
+    <description>API endpoints for RSFiles Reports Component</description>
     <namespace path="src">TCM\Plugin\WebServices\RSFilesReports</namespace>
-
     <files>
         <folder plugin="rsfilesreports">services</folder>
         <folder>src</folder>
