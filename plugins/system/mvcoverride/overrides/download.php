@@ -4,6 +4,10 @@
  * @copyright (C) 2010-2014 www.rsjoomla.com
  * @license       GPL, http://www.gnu.org/copyleft/gpl.html
  */
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die('Restricted access');
 $this->download->dlink = $this->download->dlink . '&relatedfile=' . JFactory::getApplication()->input->get('relatedfile');
 if (!empty($this->file->DownloadLimit) && $this->file->Downloads >= $this->file->DownloadLimit) $this->candownload = false; ?>
@@ -17,35 +21,38 @@ if (!empty($this->file->DownloadLimit) && $this->file->Downloads >= $this->file-
 
     <div class="<?php echo RSFilesAdapterGrid::card(); ?> mb-3">
         <div class="card-body">
-    <?php if ($this->candownload) { ?>
-        <?php $properties = rsfilesHelper::previewProperties($this->file->IdFile, $this->file->fullpath); ?>
-        <?php $extension = $properties['extension']; ?>
-        <?php $size = $properties['size']; ?>
-        <p><?php echo JText::_('View or Download directly from our server'); ?>:</p>
-        <p>
-            <?php if (in_array($extension, rsfilesHelper::previewExtensions()) && $this->file->show_preview) { ?>
-                <a href="javascript:void(0)"
-                   onclick="saveViewedAndShowModal('<?php echo JRoute::_('index.php?option=com_rsfiles&layout=preview&relatedfile=' . JFactory::getApplication()->input->get('relatedfile', 0) . '&tmpl=component&path=' . rsfilesHelper::encode($this->file->fullpath) . $this->itemid); ?>', '<?php echo JText::_('COM_RSFILES_PREVIEW'); ?>', <?php echo $size['height']; ?>, '<?php echo $properties['handler']; ?>', <?php echo $this->file->IdFile; ?>);"
-                   class="btn btn-primary btn-large"
-                   title="<?php echo JText::_('COM_RSFILES_PREVIEW'); ?>"><i
-                            class="fa fa-search fa-fw"></i><?php echo JText::_('View'); ?></a>
-            <?php } ?>
-            <a class="btn btn-primary btn-large" href="<?php echo $this->download->dlink; ?>" onclick="saveDownloaded(<?php echo $this->file->IdFile; ?>)">
-                <i class="fa fa-download"></i> <?php echo JText::_('COM_RSFILES_DOWNLOAD'); ?>
-            </a>
-        </p>
+			<?php if ($this->candownload) { ?>
+				<?php $properties = rsfilesHelper::previewProperties($this->file->IdFile, $this->file->fullpath); ?>
+				<?php $extension = $properties['extension']; ?>
+				<?php $size = $properties['size']; ?>
+                <p><?php echo JText::_('View or Download directly from our server'); ?>:</p>
+                <p>
+					<?php if (in_array($extension, rsfilesHelper::previewExtensions()) && $this->file->show_preview) { ?>
+                        <a href="javascript:void(0)"
+                           onclick="saveViewedAndShowModal('<?php echo JRoute::_('index.php?option=com_rsfiles&layout=preview&relatedfile=' . JFactory::getApplication()->input->get('relatedfile', 0) . '&tmpl=component&path=' . rsfilesHelper::encode($this->file->fullpath) . $this->itemid); ?>', '<?php echo JText::_('COM_RSFILES_PREVIEW'); ?>', <?php echo $size['height']; ?>, '<?php echo $properties['handler']; ?>', <?php echo $this->file->IdFile; ?>);"
+                           class="btn btn-primary btn-large"
+                           title="<?php echo JText::_('COM_RSFILES_PREVIEW'); ?>"><i
+                                    class="fa fa-search fa-fw"></i><?php echo JText::_('View'); ?></a>
+					<?php } ?>
+                    <a class="btn btn-primary btn-large"
+                       href="<?php echo $this->download->dlink; ?>"
+                       onclick="saveDownloaded(<?php echo $this->file->IdFile; ?>)">
+                        <i class="fa fa-download"></i> <?php echo JText::_('COM_RSFILES_DOWNLOAD'); ?>
+                    </a>
+                </p>
 
-        <?php if (!empty($this->mirrors)) { ?>
-            <p><?php echo JText::_('COM_RSFILES_DOWNLOAD_FROM_MIRRORS'); ?> :</p>
-            <?php foreach ($this->mirrors as $mirror) { ?>
-                <a class="btn btn-info" target="_blank"
-                   href="<?php echo $mirror->MirrorURL; ?>"><?php echo $mirror->MirrorName; ?></a>
-            <?php } ?>
-        <?php } ?>
-    <?php } else { ?>
-        <i class="fa fa-exclamation-triangle"></i> <?php echo JText::_('COM_RSFILES_DOWNLOAD_PERMISSION_ERROR'); ?>
-    <?php } ?>
-</div>
+				<?php if (!empty($this->mirrors)) { ?>
+                    <p><?php echo JText::_('COM_RSFILES_DOWNLOAD_FROM_MIRRORS'); ?> :</p>
+					<?php foreach ($this->mirrors as $mirror) { ?>
+                        <a class="btn btn-info"
+                           target="_blank"
+                           href="<?php echo $mirror->MirrorURL; ?>"><?php echo $mirror->MirrorName; ?></a>
+					<?php } ?>
+				<?php } ?>
+			<?php } else { ?>
+                <i class="fa fa-exclamation-triangle"></i> <?php echo JText::_('COM_RSFILES_DOWNLOAD_PERMISSION_ERROR'); ?>
+			<?php } ?>
+        </div>
     </div>
 
 	<?php if (!empty($this->screenshots)) { ?>
@@ -57,7 +64,8 @@ if (!empty($this->file->DownloadLimit) && $this->file->Downloads >= $this->file-
                            onclick="rsfiles_show_modal('<?php echo JURI::root(); ?>components/com_rsfiles/images/screenshots/<?php echo $path; ?>', '&nbsp;', 800);"
                            class="thumbnail">
                             <img src="<?php echo JURI::root(); ?>components/com_rsfiles/images/screenshots/<?php echo $path; ?>"
-                                 alt="" style="width:160px; height:120px;"/>
+                                 alt=""
+                                 style="width:160px; height:120px;"/>
                         </a>
                     </li>
 				<?php } ?>
@@ -131,37 +139,68 @@ if (!empty($this->file->DownloadLimit) && $this->file->Downloads >= $this->file-
 
 <?php if ($this->config->modal == 1) echo JHtml::_('bootstrap.renderModal', 'rsfRsfilesModal', array('title' => '', 'bodyHeight' => 70)); ?>
 <script>
-
-async function saveViewedAndShowModal(url, title, height, handler, fileId) {
-    const saveUrl = document.location.origin + "/api/index.php/v1/rsfilesreports/save/document/viewed?file_id="+fileId;
-    await fetch(saveUrl,{
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/vnd.api+json',
-            'Accept': 'application/vnd.api+json'
-        }
-    }).then(rsfiles_show_modal(url, title, height, handler));
-}
-
-function saveDownloaded(fileId) {
-    // Save downloaded information via AJAX
-    var xhr = new XMLHttpRequest();
-    var url = document.location.origin + "/api/index.php/v1/rsfilesreports/save/document/downloaded?file_id=" + fileId;
-    console.log(url);
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-Type", "application/vnd.api+json");
-    xhr.setRequestHeader("Accept", "application/vnd.api+json");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            if (!response.success) {
-                alert("Error: " + response.message);
+    async function saveViewedAndShowModal(url, title, height, handler, fileId) {
+        await fetch(document.location.origin + "/api/index.php/v1/rsfilesreports/save/document/viewed", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(({
+                file_id: fileId
+            }))
+        }).then(res => {
+            if (res.ok) {
+                rsfiles_show_modal(url, title, height, handler);
+            } else throw new Error('Error saving that file was viewed');
+        }).catch(err => {
+                console.log(err.message);
             }
-        }
-    };
-    xhr.send();
-}
-    jQuery(document).ready(function(){
-        jQuery('.fa-bookmark').click(function(){ setTimeout(function(){window.parent.location.reload();},2000)});
+        );
+    }
+
+    async function saveDownloaded(fileId) {
+        await fetch(document.location.origin + "/api/index.php/v1/rsfilesreports/save/document/downloaded", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(({
+                file_id: fileId
+            }))
+        }).then(res => {
+            if (!res.ok) {
+                throw new Error('Error saving that file was downloaded');
+            }
+        }).catch(err => {
+                console.log(err.message);
+            }
+        );
+    }
+
+    /*    function saveDownloaded(fileId) {
+			// Save downloaded information via AJAX
+			var xhr = new XMLHttpRequest();
+			var url = document.location.origin + "/api/index.php/v1/rsfilesreports/save/document/downloaded?file_id=" + fileId;
+			console.log(url);
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader("Content-Type", "application/vnd.api+json");
+			xhr.setRequestHeader("Accept", "application/vnd.api+json");
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					var response = JSON.parse(xhr.responseText);
+					if (!response.success) {
+						alert("Error: " + response.message);
+					}
+				}
+			};
+			xhr.send();
+		}*/
+
+    jQuery(document).ready(function () {
+        jQuery('.fa-bookmark').click(function () {
+            setTimeout(function () {
+                window.parent.location.reload();
+            }, 2000)
+        });
     });
 </script>
