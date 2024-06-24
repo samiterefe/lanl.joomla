@@ -36,8 +36,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php }
 	} ?>
 
-    <form action="<?php echo htmlentities(JURI::getInstance(), ENT_COMPAT, 'UTF-8'); ?>" method="post"
-          id="adminForm" name="adminForm">
+    <form action="<?php echo htmlentities(JURI::getInstance(), ENT_COMPAT, 'UTF-8'); ?>"
+          method="post"
+          id="adminForm"
+          name="adminForm">
 		<?php if (JFactory::getApplication()->scope == 'mod_rsfiles_list_tags')
 		{
 			echo '<script src="' . JUri::root() . 'modules/mod_rsfiles_list_tags/js/table-sort.js">' . '</script>';
@@ -72,7 +74,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						echo JText::_('Name');
 					} ?>
                 </th>
-                <th width="30%" style="text-align: center;">Expiry/Renewals</th>
+                <th width="30%"
+                    style="text-align: center;">Expiry/Renewals
+                </th>
                 <th width="10%">&nbsp;</th>
 				<?php if ($this->config->list_show_date) { ?>
                     <th width="12%"><?php
@@ -91,11 +95,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php if (!empty($this->items)) { ?>
 				<?php foreach ($this->items as $i => $item) { ?>
 
-              <?php
-              $tags = null;
-            $alltags = $this->getModel()->getFileTags(rsfilesHelper::getTags($item->id));
-            $tags = $this->getModel()->FilterFileTags($alltags);
-              ?>
+					<?php
+					$tags    = null;
+					$alltags = $this->getModel()->getFileTags(rsfilesHelper::getTags($item->id));
+					$tags    = $this->getModel()->FilterFileTags($alltags);
+					?>
 					<?php $fullpath = $this->dld_fld . $this->ds . urldecode($item->fullpath); ?>
 					<?php $path = str_replace($this->config->download_folder . $this->ds, '', $fullpath); ?>
 					<?php $canDownload = rsfilesHelper::permissions('CanDownload', $path); ?>
@@ -109,12 +113,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 							<?php $download = rsfilesHelper::downloadlink($item, $item->fullpath); ?>
 							<?php if ($canDownload && $this->config->direct_download) { ?>
 							<?php if ($download->ismodal) { ?>
-                            <a class="rsfiles-file <?php echo $thumbnail->class; ?>" href="javascript:void(0)"
+                            <a class="rsfiles-file <?php echo $thumbnail->class; ?>"
+                               href="javascript:void(0)"
                                onclick="rsfiles_show_modal('<?php echo $download->dlink; ?>', '<?php echo JText::_('COM_RSFILES_DOWNLOAD'); ?>', 600)"
                                title="<?php echo $thumbnail->image; ?>">
 								<?php } else { ?>
                                 <a class="rsfiles-file <?php echo $thumbnail->class; ?>"
-                                   href="<?php echo $download->dlink; ?>" title="<?php echo $thumbnail->image; ?>">
+                                   href="<?php echo $download->dlink; ?>"
+                                   title="<?php echo $thumbnail->image; ?>">
 									<?php } ?>
 									<?php } else { ?>
                                     <a href="<?php echo JRoute::_('index.php?option=com_rsfiles&layout=download&path=' . rsfilesHelper::encode($item->fullpath) . $this->itemid); ?>"
@@ -124,17 +130,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
                                         <i class="rsfiles-file-icon <?php echo $item->icon; ?>"></i> <?php echo(!empty($item->filename) ? $item->filename : $item->name); ?>
                                     </a>
 
-                                    <br />
+                                    <br/>
 
 									<?php if ($item->isnew) { ?>
                                         <span class="badge badge-info bg-info"><?php echo JText::_('COM_RSFILES_NEW'); ?></span>
 									<?php } ?>
 
-                                    <?php if(count($tags) > 0): ?>
-                                        <?php foreach($tags as $tag): ?>
-                                        <span class="badge bg-secondary"><?php echo $this->getModel()->getFileTagAlias($tag); ?></span>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
+									<?php if (count($tags) > 0): ?>
+										<?php foreach ($tags as $tag): ?>
+                                            <span class="badge bg-secondary"><?php echo $this->getModel()->getFileTagAlias($tag); ?></span>
+										<?php endforeach; ?>
+									<?php endif; ?>
 
 									<?php if ($item->popular) { ?>
                                         <span class="badge badge-success bg-success"><?php echo JText::_('COM_RSFILES_POPULAR'); ?></span>
@@ -191,16 +197,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 							<?php if ($item->type != 'folder') { ?>
 							<?php if ($canDownload && $this->config->direct_download) { ?>
 							<?php if ($download->ismodal) { ?>
-                            <a class="hasTooltip" title="<?php echo JText::_('COM_RSFILES_DOWNLOAD'); ?>"
+                            <a class="hasTooltip"
+                               title="<?php echo JText::_('COM_RSFILES_DOWNLOAD'); ?>"
                                href="javascript:void(0)"
                                onclick="rsfiles_show_modal('<?php echo $download->dlink; ?>', '<?php echo JText::_('COM_RSFILES_DOWNLOAD'); ?>', 600);">
 								<?php } else { ?>
-                                <a class="hasTooltip" title="<?php echo JText::_('COM_RSFILES_DOWNLOAD'); ?>"
+                                <a class="hasTooltip"
+                                   title="<?php echo JText::_('COM_RSFILES_DOWNLOAD'); ?>"
                                    href="<?php echo $download->dlink; ?>">
 									<?php } ?>
 									<?php } else { ?>
                                     <a href="<?php echo JRoute::_('index.php?option=com_rsfiles&layout=download&path=' . rsfilesHelper::encode($item->fullpath) . $this->itemid); ?>"
-                                       class="hasTooltip" title="<?php echo JText::_('COM_RSFILES_DOWNLOAD'); ?>">
+                                       class="hasTooltip"
+                                       title="<?php echo JText::_('COM_RSFILES_DOWNLOAD'); ?>">
 										<?php } ?>
                                         <i class="fa fa-download fa-fw"></i>
                                     </a>
@@ -220,7 +229,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 										<?php if (in_array($extension, rsfilesHelper::previewExtensions()) && $item->show_preview) { ?>
                                             <a href="javascript:void(0)"
-                                               onclick="rsfiles_show_modal('<?php echo JRoute::_('index.php?option=com_rsfiles&layout=preview&tmpl=component&path=' . rsfilesHelper::encode($item->fullpath) . $this->itemid); ?>', '<?php echo JText::_('COM_RSFILES_PREVIEW'); ?>', <?php echo $size['height']; ?>, '<?php echo $properties['handler']; ?>');"
+                                               onclick="saveViewedAndShowModal('<?php echo JRoute::_('index.php?option=com_rsfiles&layout=preview&tmpl=component&path=' . rsfilesHelper::encode($item->fullpath) . $this->itemid); ?>', '<?php echo JText::_('COM_RSFILES_PREVIEW'); ?>', <?php echo $size['height']; ?>, '<?php echo $properties['handler']; ?>', <?php echo $item->id; ?>);"
                                                class="hasTooltip"
                                                title="<?php echo JText::_('COM_RSFILES_PREVIEW'); ?>">
                                                 <i class="fa fa-search fa-fw"></i>
@@ -229,7 +238,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 									<?php } ?>
 
 									<?php if ($canDownload && $this->config->show_bookmark && !$item->FileType) { ?>
-                                        <a href="javascript:void(0);" class="hasTooltip"
+                                        <a href="javascript:void(0);"
+                                           class="hasTooltip"
                                            title="<?php echo rsfilesHelper::isBookmarked($item->fullpath) ? JText::_('COM_RSFILES_NAVBAR_FILE_IS_BOOKMARKED') : JText::_('COM_RSFILES_NAVBAR_BOOKMARK_FILE'); ?>"
                                            onclick="rsf_bookmark('<?php echo JURI::root(); ?>','<?php echo $this->escape(addslashes(urldecode($item->fullpath))); ?>','<?php echo $this->briefcase ? 1 : 0; ?>','<?php echo $this->app->input->getInt('Itemid', 0); ?>', this)">
                                             <i class="<?php echo rsfilesHelper::isBookmarked($item->fullpath) ? 'fa' : 'far'; ?> fa-bookmark fa-fw"></i>
@@ -270,10 +280,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
             </tbody>
         </table>
 
-        <input type="hidden" name="task" value="" />
-        <input type="hidden" name="filter_order" value="<?php echo $this->escape($this->listOrder); ?>" />
-        <input type="hidden" name="filter_order_Dir" value="<?php echo $this->escape($this->listDirn); ?>" />
-        <input type="hidden" name="filter_tag" id="filter_tag" value="<?php echo $this->escape($this->tag); ?>" />
+        <input type="hidden"
+               name="task"
+               value=""/>
+        <input type="hidden"
+               name="filter_order"
+               value="<?php echo $this->escape($this->listOrder); ?>"/>
+        <input type="hidden"
+               name="filter_order_Dir"
+               value="<?php echo $this->escape($this->listDirn); ?>"/>
+        <input type="hidden"
+               name="filter_tag"
+               id="filter_tag"
+               value="<?php echo $this->escape($this->tag); ?>"/>
     </form>
 
 	<?php
@@ -294,3 +313,42 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </div>
 
 <?php if ($this->config->modal == 1) echo JHtml::_('bootstrap.renderModal', 'rsfRsfilesModal', array('title' => '', 'bodyHeight' => 70)); ?>
+<script>
+    async function saveViewedAndShowModal(url, title, height, handler, fileId) {
+        await fetch(document.location.origin + "/api/index.php/v1/rsfilesreports/save/document/viewed", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(({
+                file_id: fileId
+            }))
+        }).then(res => {
+            if (res.ok) {
+                rsfiles_show_modal(url, title, height, handler);
+            } else throw new Error('Error saving that file was viewed');
+        }).catch(err => {
+                console.log(err.message);
+            }
+        );
+    }
+
+    async function saveDownloaded(fileId) {
+        await fetch(document.location.origin + "/api/index.php/v1/rsfilesreports/save/document/downloaded", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(({
+                file_id: fileId
+            }))
+        }).then(res => {
+            if (!res.ok) {
+                throw new Error('Error saving that file was downloaded');
+            }
+        }).catch(err => {
+                console.log(err.message);
+            }
+        );
+    }
+</script>
