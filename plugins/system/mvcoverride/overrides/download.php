@@ -177,25 +177,6 @@ if (!empty($this->file->DownloadLimit) && $this->file->Downloads >= $this->file-
         );
     }
 
-    /*    function saveDownloaded(fileId) {
-			// Save downloaded information via AJAX
-			var xhr = new XMLHttpRequest();
-			var url = document.location.origin + "/api/index.php/v1/rsfilesreports/save/document/downloaded?file_id=" + fileId;
-			console.log(url);
-			xhr.open("POST", url, true);
-			xhr.setRequestHeader("Content-Type", "application/vnd.api+json");
-			xhr.setRequestHeader("Accept", "application/vnd.api+json");
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState === 4 && xhr.status === 200) {
-					var response = JSON.parse(xhr.responseText);
-					if (!response.success) {
-						alert("Error: " + response.message);
-					}
-				}
-			};
-			xhr.send();
-		}*/
-
     jQuery(document).ready(function () {
         jQuery('.fa-bookmark').click(function () {
             setTimeout(function () {
