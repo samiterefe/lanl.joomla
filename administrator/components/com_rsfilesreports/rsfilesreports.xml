@@ -8,7 +8,7 @@
     <authorUrl>https://bkdesignsolutions.com</authorUrl>
     <copyright>Copyright (C) 2024 BK Design Solutions</copyright>
     <license>Private</license>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <description>Access reports about the files being handled by the RSFiles extension</description>
     <namespace path="src">TCM\Component\RSFilesReports</namespace>
     <install>
@@ -38,15 +38,14 @@
               link="option=com_rsfilesreports">RSFiles Reports
         </menu>
         <submenu>
-            <menu link="option=com_rsfilesreports&amp;view=documents">Documents Report</menu>
-            <menu link="option=com_rsfilesreports&amp;view=categories">Categories Report</menu>
+            <menu link="option=com_rsfilesreports&amp;view=documents">Document Report</menu>
+            <menu link="option=com_rsfilesreports&amp;view=categories">Category Report</menu>
+            <menu link="option=com_rsfilesreports&amp;view=menu">Menu Report</menu>
         </submenu>
         <files folder="admin">
-            <folder>views</folder>
-            <filename>install.mysql.sql</filename>
-            <filename>controller.php</filename>
-            <filename>index.html</filename>
-            <filename>rsfilesreports.php</filename>
+            <folder>services</folder>
+            <folder>sql</folder>
+            <folder>src</folder>
         </files>
     </administration>
 </extension>

@@ -10,7 +10,7 @@
     <license>Private</license>
     <authorEmail>bh@bkdesignsolutions.com</authorEmail>
     <authorUrl>https://bkdesignsolutions.com</authorUrl>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <description>API endpoints for RSFiles Reports Component</description>
     <namespace path="src">TCM\Plugin\WebServices\RSFilesReports</namespace>
     <files>

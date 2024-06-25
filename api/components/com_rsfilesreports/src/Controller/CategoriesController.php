@@ -114,7 +114,7 @@ class CategoriesController extends ApiController
 					else
 					{
 						$categoryMap[$categoryName] = [
-							'Category'        => $categoryName,
+							'Category'        => $categoryPath,
 							'total_views'     => (int) $file['total_views'],
 							'total_downloads' => (int) $file['total_downloads']
 						];
