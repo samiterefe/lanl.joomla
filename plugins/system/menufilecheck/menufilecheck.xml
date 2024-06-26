@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+    <name>System - Menu File Check</name>
+    <author>BK Design Solutions</author>
+    <creationDate>June 2024</creationDate>
+    <copyright>Copyright (C) 2024 BK Design Solutions</copyright>
+    <license>Private</license>
+    <authorEmail>bh@bkdesignsolutions.com</authorEmail>
+    <authorUrl>https://bkdesignsolutions.com</authorUrl>
+    <version>1.0.0</version>
+    <description>Custom plugin to check if menu title matches file paths in the rsfiles_files table</description>
+    <files>
+        <folder>tables</folder>
+        <filename>tables/menufilecheck.php</filename>
+        <filename plugin="menufilecheck">menufilecheck.php</filename>
+        <filename>install.mysql.sql</filename>
+        <filename>uninstall.mysql.sql</filename>
+    </files>
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">install.mysql.sql</file>
+        </sql>
+    </install>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">uninstall.mysql.sql</file>
+        </sql>
+    </uninstall>
+</extension>
