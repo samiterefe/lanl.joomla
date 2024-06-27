@@ -7,22 +7,22 @@ use Joomla\CMS\Response\JsonResponse;
 
 \defined('_JEXEC') or die;
 
-class MenuViewController extends ApiController
+class MenuController extends ApiController
 {
-    protected $contentType = 'menuView';
+    protected $contentType = 'menu';
 
-    protected $default_view = 'menuView';
+    protected $default_view = 'menu';
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function getMenuViews(): void
+    public function getMenu(): void
     {
         try
         {
-            echo "Debug: Entering getMenuViews\n";
+            echo "Debug: Entering getMenu\n";
             
             $input = $this->app->input;
             $startDate = $input->get('startDate', '1970-01-01', 'string');
