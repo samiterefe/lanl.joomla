@@ -40,6 +40,8 @@
         <submenu>
             <menu link="option=com_rsfilesreports&amp;view=documents">Document Report</menu>
             <menu link="option=com_rsfilesreports&amp;view=categories">Category Report</menu>
+            <menu link="option=com_rsfilesreports&amp;view=menuviews">Menu Views Report</menu>
+
         </submenu>
         <files folder="admin">
             <folder>services</folder>
