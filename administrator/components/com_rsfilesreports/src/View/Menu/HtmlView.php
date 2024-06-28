@@ -13,6 +13,6 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		ToolBarHelper::title(Text::_('Menu Report'), 'menu');
-		// echo '<div id="app"></div>';
+		echo '<div id="app"></div>';
 	}
 }
