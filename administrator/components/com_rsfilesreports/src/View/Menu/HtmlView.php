@@ -1,5 +1,5 @@
 <?php
-namespace TCM\Component\RSFilesReports\Administrator\View\Documents;
+namespace TCM\Component\RSFilesReports\Administrator\View\Menu;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -12,7 +12,7 @@ class HtmlView extends BaseHtmlView
 {
 	public function display($tpl = null)
 	{
-		ToolBarHelper::title(Text::_('Menu Report'), 'menu');
+		ToolBarHelper::title(Text::_('Menus Report'), 'menu');
 		echo '<div id="app"></div>';
 	}
 }
