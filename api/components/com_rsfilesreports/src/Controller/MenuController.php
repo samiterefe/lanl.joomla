@@ -22,14 +22,12 @@ class MenuController extends ApiController
     {
         try
         {
-            echo "Debug: Entering getMenu\n";
             
             $input = $this->app->input;
             $startDate = $input->get('startDate', '1970-01-01', 'string');
             $endDate = $input->get('endDate', date('Y-m-d') . ' 23:59:59', 'string');
             $sortBy = $input->get('sortBy', '', 'string');
     
-            echo "Debug: Start Date: $startDate, End Date: $endDate, Sort By: $sortBy\n";
     
             $db = Factory::getContainer()->get('DatabaseDriver');
             $query = $db->getQuery(true);
@@ -46,14 +44,12 @@ class MenuController extends ApiController
             $db->setQuery($query);
             $menuViews = $db->loadObjectList();
     
-            echo "Debug: Query executed, result count: " . count($menuViews) . "\n";
     
             echo new JsonResponse($menuViews);
             $this->app->close();
         }
         catch (\Exception $e)
         {
-            echo "Debug: Exception caught: " . $e->getMessage() . "\n";
             echo new JsonResponse(null, $e->getMessage(), true);
             $this->app->close();
         }

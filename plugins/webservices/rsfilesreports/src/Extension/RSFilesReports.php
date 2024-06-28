@@ -18,6 +18,7 @@ class RSFilesReports extends CMSPlugin
             new Route(['GET'], 'v1/rsfilesreports/get/documents/info', 'downloaded.getDocumentsInfo', [], $defaults),
             new Route(['GET'], 'v1/rsfilesreports/get/menu/info', 'menu.getMenu', [], $defaults),
             new Route(['POST'], 'v1/rsfilesreports/save/document/viewed', 'viewed.saveViewed', [], $defaults),
+            new Route(['POST'], 'v1/rsfilesreports/save/document/downloaded', 'downloaded.saveDownloaded', [], $defaults),
             new Route(['GET'], 'v1/rsfilesreports/get/categories/info', 'categories.getCategoriesInfo', [], $defaults),
         ];
 
