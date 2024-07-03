@@ -7,6 +7,6 @@ class MenuViewsTableMenuViews extends Table
 {
     public function __construct(&$db)
     {
-        parent::__construct('#__rsfiles_menuhits', 'id', $db);
+        parent::__construct('#__lanl_rsfiles_menuhits', 'id', $db);
     }
 }

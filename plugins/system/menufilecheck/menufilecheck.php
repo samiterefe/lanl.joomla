@@ -59,40 +59,46 @@ class PlgSystemMenuFileCheck extends CMSPlugin
                     $result = $this->db->loadResult();
 
                     if ($result) {
-                        // Check if an entry already exists in the rsfiles_menuhits table
-                        $hitsQuery = $this->db->getQuery(true)
-                            ->select($this->db->quoteName('id'))
-                            ->select($this->db->quoteName('hits'))
-                            ->from($this->db->quoteName('#__rsfiles_menuhits'))
-                            ->where($this->db->quoteName('menu_id') . ' = ' . (int)$Itemid)
-                            ->where($this->db->quoteName('file_path') . ' = ' . $this->db->quote($result));
-                        
-                        $this->db->setQuery($hitsQuery);
-                        $hitsResult = $this->db->loadObject();
+                        // Get downloader IP address and country
+                        $downloader_ip_address = $app->input->server->get('REMOTE_ADDR');
+                        $downloader_country = $this->getCountryFromIp($downloader_ip_address);
 
-                        if ($hitsResult) {
-                            // Update the hit counter in the rsfiles_menuhits table
-                            $hitsResult->hits++;
-                            $query = $this->db->getQuery(true)
-                                ->update($this->db->quoteName('#__rsfiles_menuhits'))
-                                ->set($this->db->quoteName('hits') . ' = ' . (int)$hitsResult->hits)
-                                ->where($this->db->quoteName('id') . ' = ' . (int)$hitsResult->id);
-                            $this->db->setQuery($query);
-                            $this->db->execute();
-                        } else {
-                            // Add a new row in the rsfiles_menuhits table
-                            $query = $this->db->getQuery(true)
-                                ->insert($this->db->quoteName('#__rsfiles_menuhits'))
-                                ->columns(array($this->db->quoteName('menu_id'), $this->db->quoteName('menu_title'), $this->db->quoteName('file_path'), $this->db->quoteName('hits')))
-                                ->values((int)$Itemid . ', ' . $this->db->quote($menuTitle) . ', ' . $this->db->quote($result) . ', 1');
-                            $this->db->setQuery($query);
-                            $this->db->execute();
-                        }
+                        // Always insert a new row in the rsfiles_menuhits table for every click
+                        $query = $this->db->getQuery(true)
+                            ->insert($this->db->quoteName('#__lanl_rsfiles_menuhits'))
+                            ->columns(array($this->db->quoteName('menu_id'), $this->db->quoteName('menu_title'), $this->db->quoteName('file_path'), $this->db->quoteName('country')))
+                            ->values((int)$Itemid . ', ' . $this->db->quote($menuTitle) . ', ' . $this->db->quote($result) . ', ' . $this->db->quote($downloader_country));
+                        $this->db->setQuery($query);
+                        $this->db->execute();
                     }
                 }
             }
         }
 
         return true;
+    }
+
+    public function getCountryFromIp($ipAddress): ?string
+    {
+        try
+        {
+            $db    = Factory::getContainer()->get('DatabaseDriver');
+            $query = $db->getQuery(true);
+            $query
+                ->select($db->quoteName('country_code'))
+                ->from($db->quoteName('#__rsfilesreports_ip_to_country'))
+                ->where($db->quote($ipAddress) . ' BETWEEN ip_start AND ip_end');
+
+            $db->setQuery($query);
+
+            return $db->loadResult();
+        }
+        catch (\Exception $e)
+        {
+            echo new JsonResponse(null, $e->getMessage(), true);
+            Factory::getApplication()->close();
+
+            return null;
+        }
     }
 }
