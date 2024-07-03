@@ -84,6 +84,7 @@ pnpm-lock.yaml
 /plugins/system/log/
 /plugins/system/languagecode/
 /plugins/system/logrotation/
+/plugins/system/lanlhits/
 /plugins/system/shortcut/
 /plugins/system/jooa11y/
 /plugins/system/stats/
