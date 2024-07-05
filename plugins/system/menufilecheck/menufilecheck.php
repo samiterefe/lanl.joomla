@@ -111,7 +111,7 @@ class PlgSystemMenuFileCheck extends CMSPlugin
                                     // Insert a new row in the rsfiles_menuhits table
                                     $query = $this->db->getQuery(true)
                                         ->insert($this->db->quoteName('#__lanl_rsfiles_menuhits'))
-                                        ->columns(array($this->db->quoteName('menu_id'), $this->db->quoteName('menu_title'), $this->db->quoteName('file_path'), $this->db->quoteName('country'), $this->db->quoteName('viewer_ip_address')))
+                                        ->columns(array($this->db->quoteName('menu_id'), $this->db->quoteName('menu_title'), $this->db->quoteName('category'), $this->db->quoteName('country'), $this->db->quoteName('viewer_ip_address')))
                                         ->values((int)$Itemid . ', ' . $this->db->quote($menuTitle) . ', ' . $this->db->quote($categoryName) . ', ' . $this->db->quote($downloaderCountry) . ', ' . $this->db->quote($downloaderIpAddress));
                                     $this->db->setQuery($query);
                                     $this->db->execute();
