@@ -33,7 +33,7 @@ class MenuController extends ApiController
 
             // Query to count the total views for each menu_id
             $query
-                ->select($db->quoteName(['menu_id', 'menu_title', 'file_path', 'country']))
+                ->select($db->quoteName(['menu_id', 'menu_title']))
                 ->select('COUNT(' . $db->quoteName('id') . ') AS total_views')
                 ->from($db->quoteName('#__lanl_rsfiles_menuhits'))
                 ->where($db->quoteName('date_viewed') . ' BETWEEN ' . $db->quote($startDate) . ' AND ' . $db->quote($endDate))
