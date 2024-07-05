@@ -10,7 +10,6 @@
     <version>1.0.9</version>
     <description>Custom plugin to check if menu title matches file paths in the rsfiles_files table</description>
     <files>
-        <folder>tables</folder>
         <filename plugin="menufilecheck">menufilecheck.php</filename>
         <filename>install.mysql.sql</filename>
     </files>
