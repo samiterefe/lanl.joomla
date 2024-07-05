@@ -37,7 +37,7 @@ class MenuController extends ApiController
                 ->select('COUNT(' . $db->quoteName('id') . ') AS total_views')
                 ->from($db->quoteName('#__lanl_rsfiles_menuhits'))
                 ->where($db->quoteName('date_viewed') . ' BETWEEN ' . $db->quote($startDate) . ' AND ' . $db->quote($endDate))
-                ->group($db->quoteName('menu_id'))
+                ->group($db->quoteName('menu_id'), $db->quoteName('menu_title'))
                 ->order($db->quoteName($sortBy)); // Use the sortBy parameter
 
 
